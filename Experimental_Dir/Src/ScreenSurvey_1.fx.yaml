@@ -32,7 +32,7 @@ ScreenSurvey_1 As screen:
         Label1_2 As label:
             Align: =Align.Center
             AlignInContainer: =AlignInContainer.Center
-            Color: =RGBA(255, 255, 255, 1)
+            Color: =RGBA(54, 176, 75, 1)
             Fill: =RGBA(86, 180, 211, 1)
             FontWeight: =Bold
             Height: =100
