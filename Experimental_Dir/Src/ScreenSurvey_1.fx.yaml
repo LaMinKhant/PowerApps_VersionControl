@@ -74,7 +74,7 @@ ScreenSurvey_1 As screen:
         Height: =80
         HoverBorderColor: =RGBA(255, 255, 255, 1)
         HoverColor: =RGBA(255, 255, 0, 1)
-        HoverFill: =RGBA(0, 94, 146, 1)
+        HoverFill: =RGBA(255, 191, 0, 1)
         OnSelect: |+
             =ResetForm(Form2);NewForm(Form2);
             Set(GPS_Text, Blank());
