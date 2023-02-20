@@ -1,0 +1,1084 @@
+ScreenSurvey_1 As screen:
+    BackgroundImage: =
+    Fill: =RGBA(241, 244, 249, 1)
+
+    Image2_1 As image:
+        Height: =637
+        Image: =
+        ImagePosition: =ImagePosition.Fill
+        Transparency: =0.1
+        Width: =768
+        Y: =156
+        ZIndex: =1
+
+    Container2_2 As groupContainer.horizontalAutoLayoutContainer:
+        Fill: =RGBA(86, 180, 211, 1)
+        Height: =156
+        LayoutGap: =5
+        LayoutMode: =LayoutMode.Auto
+        Width: =768
+        ZIndex: =4
+
+        Image1_2 As image:
+            AlignInContainer: =AlignInContainer.Center
+            Image: =
+            PaddingBottom: =0.00
+            PaddingLeft: =0.00
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            Width: =134
+            ZIndex: =1
+
+        Label1_2 As label:
+            Align: =Align.Center
+            AlignInContainer: =AlignInContainer.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(86, 180, 211, 1)
+            FontWeight: =Bold
+            Height: =100
+            PaddingBottom: =5.56
+            PaddingLeft: =5.56
+            PaddingRight: =4.50
+            PaddingTop: =4.50
+            Size: =25
+            Text: ="MayMyo Fresh Survey"
+            Width: =500
+            Y: =0.00
+            ZIndex: =2
+
+    Button2_1 As button:
+        Height: =80
+        HoverBorderColor: =RGBA(255, 255, 255, 1)
+        HoverColor: =RGBA(54, 176, 75, 1)
+        HoverFill: =RGBA(0, 94, 146, 1)
+        OnSelect: |
+            =SubmitForm(Form2);NewForm(Form2);
+            //For Checking GPS turn on or not
+            If(IsBlank(Location.Latitude),
+                Notify("The location was not successfully retrieved. Be sure to enable location services and restart PowerApps.",Warning);
+            );
+            //Reset Location
+            UpdateContext({LType: Blank()});
+        PaddingBottom: =5.56
+        PaddingLeft: =5.56
+        PaddingRight: =4.50
+        PaddingTop: =4.50
+        Size: =15.00
+        Text: ="Submit"
+        Width: =153
+        X: =435
+        Y: =1228
+        ZIndex: =5
+
+    Button1_1 As button:
+        Height: =80
+        HoverBorderColor: =RGBA(255, 255, 255, 1)
+        HoverColor: =RGBA(255, 255, 0, 1)
+        HoverFill: =RGBA(255, 191, 0, 1)
+        OnSelect: |+
+            =ResetForm(Form2);NewForm(Form2);
+            Set(GPS_Text, Blank());
+            UpdateContext({ResetCheckbox:true});
+            UpdateContext({ResetCheckbox:false});
+            Clear(colImages);
+            Clear(colCoffeeBrands);
+            Clear(colLandMark);
+            
+            
+            
+        PaddingBottom: =5.56
+        PaddingLeft: =5.56
+        PaddingRight: =4.5
+        PaddingTop: =4.50
+        PressedBorderColor: =RGBA(0, 94, 146, 1)
+        Size: =15.00
+        Text: ="Clear"
+        Width: =153
+        X: =141
+        Y: =1228
+        ZIndex: =6
+
+    Icon2_2 As icon.Reset:
+        Color: =RGBA(255, 255, 255, 1)
+        HoverBorderColor: =RGBA(255, 0, 0, 1)
+        HoverColor: =RGBA(255, 0, 0, 1)
+        Icon: =Icon.CancelBadge
+        OnSelect: |
+            =ResetForm(Form2);NewForm(Form2);
+            Set(GPS_Text, Blank());
+            UpdateContext({ResetCheckbox:true});
+            UpdateContext({ResetCheckbox:false});
+            Clear(colImages);
+            Clear(colCoffeeBrands);
+            Clear(colLandMark);
+        X: =657
+        Y: =46
+        ZIndex: =10
+
+    Icon3_1 As icon.Camera:
+        Color: =RGBA(255, 255, 255, 1)
+        Icon: =Icon.Camera
+        OnSelect: =Navigate(ScreenCamera);
+        Width: =101
+        X: =40
+        Y: =46
+        ZIndex: =11
+
+    Form2 As form:
+        DataSource: =MayMyoFresh_Survey
+        DefaultMode: =FormMode.New
+        Height: =1035
+        NumberOfColumns: =1
+        OnFailure: =Notify( "Please Take a photo and check your location", NotificationType.Error)
+        OnSuccess: |
+            =Notify( "Successfully Submitted", NotificationType.Success)
+        Width: =768
+        Y: =156
+        ZIndex: =12
+
+        Title_DataCard2 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Title"
+            Default: =ThisItem.Title
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"Title")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@MayMyoFresh_Survey], DataSourceInfo.MaxLength, "Title")
+            Required: =true
+            Update: =DataCardValue3.Text
+            Visible: =false
+            Width: =768
+            X: =0
+            Y: =0
+            ZIndex: =13
+
+            DataCardKey14 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue3 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: ="Test"
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey14.Y + DataCardKey14.Height + 5
+                ZIndex: =2
+
+            ErrorMessage14 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue3.Y + DataCardValue3.Height
+                ZIndex: =3
+
+            StarVisible14 As label:
+                Align: =Align.Center
+                Height: =DataCardKey14.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey14.Y
+                ZIndex: =4
+
+        "'Outlet Type_DataCard2' As typedDataCard.comboBoxEditCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="OutletType"
+            Default: =ThisItem.'Outlet Type'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"OutletType")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =150
+            Required: =false
+            Update: =DataCardValue10.Selected
+            Width: =768
+            X: =0
+            Y: =1
+            ZIndex: =13
+
+            DataCardKey15 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="ဆိုင်အမျိူးအစား"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue10 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Semibold
+                Height: =50
+                Items: =Choices([@MayMyoFresh_Survey].'Outlet Type')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(MayMyoFresh_Survey.'Outlet Type',DataCardValue10.SearchText)
+                SelectMultiple: =false
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =73
+                ZIndex: =2
+
+            ErrorMessage15 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue10.Y + DataCardValue10.Height
+                ZIndex: =3
+
+            StarVisible15 As label:
+                Align: =Align.Center
+                Height: =DataCardKey15.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey15.Y
+                ZIndex: =4
+
+        Shop_size_DataCard2 As typedDataCard.comboBoxEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Shop_size"
+            Default: =ThisItem.Shop_size
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"Shop_size")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =179
+            Required: =false
+            Update: =Radio1.Selected
+            Width: =768
+            X: =0
+            Y: =2
+            ZIndex: =13
+
+            DataCardKey16 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =59
+                Size: =15
+                Text: ="ဆိုင်အရွယ်အစား"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            ErrorMessage16 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =Radio1.Y + Radio1.Height
+                ZIndex: =3
+
+            StarVisible16 As label:
+                Align: =Align.Center
+                Height: =DataCardKey16.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey16.Y
+                ZIndex: =4
+
+            Radio1 As radio:
+                FontWeight: =FontWeight.Semibold
+                Height: =84
+                Items: =Choices([@MayMyoFresh_Survey].Shop_size)
+                Layout: =Layout.Horizontal
+                RadioSize: =50
+                Size: =15
+                Width: =698
+                X: =40
+                Y: =85
+                ZIndex: =5
+
+        Store_name_DataCard2 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Store_name"
+            Default: =ThisItem.Store_name
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"Store_name")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =150
+            MaxLength: =DataSourceInfo([@MayMyoFresh_Survey], DataSourceInfo.MaxLength, "Store_name")
+            Required: =false
+            Update: =DataCardValue14.Text
+            Width: =768
+            X: =0
+            Y: =3
+            ZIndex: =13
+
+            DataCardKey17 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="ဆိုင်အမည်ရှိလျှင်ဖြည့်ပါ "
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue14 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Semibold
+                Height: =50
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =73
+                ZIndex: =2
+
+            ErrorMessage17 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue14.Y + DataCardValue14.Height
+                ZIndex: =3
+
+            StarVisible17 As label:
+                Align: =Align.Center
+                Height: =DataCardKey17.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey17.Y
+                ZIndex: =4
+
+        Store_address_DataCard2 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Store_address"
+            Default: =ThisItem.Store_address
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"Store_address")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =145
+            MaxLength: =DataSourceInfo([@MayMyoFresh_Survey], DataSourceInfo.MaxLength, "Store_address")
+            Required: =false
+            Update: =DataCardValue15.Text
+            Width: =768
+            X: =0
+            Y: =4
+            ZIndex: =13
+
+            DataCardKey18 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="ဆိုင်လိပ်စာဖြည့်ပါ"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue15 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Semibold
+                Height: =50
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =73
+                ZIndex: =2
+
+            ErrorMessage18 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue15.Y + DataCardValue15.Height
+                ZIndex: =3
+
+            StarVisible18 As label:
+                Align: =Align.Center
+                Height: =DataCardKey18.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey18.Y
+                ZIndex: =4
+
+        Content_number_DataCard2 As typedDataCard.numberEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Content_number"
+            Default: =ThisItem.Content_number
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"Content_number")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =166
+            Required: =false
+            Update: =Value(DataCardValue16.Text)
+            Width: =768
+            X: =0
+            Y: =5
+            ZIndex: =13
+
+            DataCardKey19 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="ဆက်သွယ်ရန် ဖုန်းနံပါတ်"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue16 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Semibold
+                Format: =TextFormat.Number
+                Height: =50
+                PaddingLeft: =30
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =88
+                ZIndex: =2
+
+            ErrorMessage19 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue16.Y + DataCardValue16.Height
+                ZIndex: =3
+
+            StarVisible19 As label:
+                Align: =Align.Center
+                Height: =DataCardKey19.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey19.Y
+                ZIndex: =4
+
+            Label5 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =50
+                Size: =15
+                Text: ="09"
+                Width: =36
+                X: =30
+                Y: =88
+                ZIndex: =5
+
+        Any_landmarks_DataCard2 As typedDataCard.comboBoxMultiSelectEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Any_landmarks"
+            Default: =ThisItem.Any_landmarks
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"Any_landmarks")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =302
+            Required: =false
+            Update: =colLandMark
+            Width: =768
+            X: =0
+            Y: =6
+            ZIndex: =13
+
+            DataCardKey20 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="ဆိုင်သည် မည်သည့်အထင်ကရနေရာ၏ အနီးတ္ငင် ရှိပါသလဲ"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            ErrorMessage20 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =Checkbox2.Y + Checkbox2.Height
+                ZIndex: =3
+
+            StarVisible20 As label:
+                Align: =Align.Center
+                Height: =DataCardKey20.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey20.Y
+                ZIndex: =4
+
+            "Gallery3 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+                Height: =217
+                Items: =Choices([@MayMyoFresh_Survey].Any_landmarks)
+                Layout: =Layout.Vertical
+                TemplatePadding: =0
+                TemplateSize: =63
+                Width: =738
+                WrapCount: =3
+                X: =30
+                Y: =85
+                ZIndex: =5
+
+                Checkbox2 As checkbox:
+                    CheckboxSize: =50
+                    FontWeight: =FontWeight.Semibold
+                    Height: =63
+                    OnCheck: =Collect(colLandMark,ThisItem)
+                    OnSelect: =Select(Parent)
+                    OnUncheck: =Remove(colLandMark,ThisItem)
+                    Reset: =ResetCheckbox
+                    Size: =15
+                    Text: =ThisItem.Value
+                    Width: =300
+                    ZIndex: =1
+
+        How_do_you_purchase_DataCard2 As typedDataCard.comboBoxEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="How_do_you_purchase"
+            Default: =ThisItem.How_do_you_purchase
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"How_do_you_purchase")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =157
+            Required: =false
+            Update: =DataCardValue18.Selected
+            Width: =768
+            X: =0
+            Y: =7
+            ZIndex: =13
+
+            DataCardKey21 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="မည်သို့ဝယ်ယူပါသလဲ"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue18 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Semibold
+                Height: =50
+                Items: =Choices([@MayMyoFresh_Survey].How_do_you_purchase)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(MayMyoFresh_Survey.How_do_you_purchase,DataCardValue18.SearchText)
+                SelectMultiple: =false
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =73
+                ZIndex: =2
+
+            ErrorMessage21 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue18.Y + DataCardValue18.Height
+                ZIndex: =3
+
+            StarVisible21 As label:
+                Align: =Align.Center
+                Height: =DataCardKey21.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey21.Y
+                ZIndex: =4
+
+        Name_of_the_shop_you_are_buying_from_DataCard2 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Name_of_the_shop_you_are_buying_"
+            Default: =ThisItem.Name_of_the_shop_you_are_buying_from
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"Name_of_the_shop_you_are_buying_")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =146
+            MaxLength: =DataSourceInfo([@MayMyoFresh_Survey], DataSourceInfo.MaxLength, "Name_of_the_shop_you_are_buying_")
+            Required: =false
+            Update: =DataCardValue19.Text
+            Width: =768
+            X: =0
+            Y: =8
+            ZIndex: =13
+
+            DataCardKey22 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: =" ဝယ်ယူနေသည့် ဆိုင်အမည်အား ဖော်ပြပါ"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue19 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Semibold
+                Height: =50
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =73
+                ZIndex: =2
+
+            ErrorMessage22 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue19.Y + DataCardValue19.Height
+                ZIndex: =3
+
+            StarVisible22 As label:
+                Align: =Align.Center
+                Height: =DataCardKey22.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey22.Y
+                ZIndex: =4
+
+        What_coffee_brands_are_there_DataCard2 As typedDataCard.comboBoxMultiSelectEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="What_coffee_brands_are_there"
+            Default: =
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"What_coffee_brands_are_there")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =274
+            Required: =false
+            Update: =colCoffeeBrands
+            Width: =768
+            X: =0
+            Y: =9
+            ZIndex: =13
+
+            DataCardKey23 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="မည်သည့် coffee တံဆိပ်များရှိပါသလဲ"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            ErrorMessage23 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =Checkbox1.Y + Checkbox1.Height
+                ZIndex: =3
+
+            StarVisible23 As label:
+                Align: =Align.Center
+                Height: =DataCardKey23.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey23.Y
+                ZIndex: =4
+
+            "Gallery2 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+                Height: =225
+                Items: =Choices([@MayMyoFresh_Survey].What_coffee_brands_are_there)
+                Layout: =Layout.Vertical
+                TemplatePadding: =0
+                TemplateSize: =70
+                Width: =698
+                WrapCount: =3
+                X: =40
+                Y: =71
+                ZIndex: =5
+
+                Checkbox1 As checkbox:
+                    CheckboxSize: =50
+                    FontWeight: =FontWeight.Semibold
+                    Height: =71
+                    OnCheck: =Collect(colCoffeeBrands,ThisItem)
+                    OnSelect: =Select(Parent)
+                    OnUncheck: =Remove(colCoffeeBrands,ThisItem)
+                    Reset: =ResetCheckbox
+                    Size: =15
+                    Text: =ThisItem.Value
+                    Width: =218
+                    ZIndex: =1
+
+        "'How_much_Maymyo_Fresh_did_you_sell?_DataCard2' As typedDataCard.numberEditCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="How_much_Maymyo_Fresh_did_you_se"
+            Default: =ThisItem.'How_much_Maymyo_Fresh_did_you_sell?'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"How_much_Maymyo_Fresh_did_you_se")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =175
+            Required: =false
+            Update: =Value(DataCardValue21.Text)
+            Width: =768
+            X: =0
+            Y: =10
+            ZIndex: =13
+
+            DataCardKey24 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="Maymyo Fresh ဘယ်လောက်ရောင်းချခဲ့ပါသလဲ "
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue21 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Semibold
+                Format: =TextFormat.Number
+                Height: =50
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =88
+                ZIndex: =2
+
+            ErrorMessage24 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue21.Y + DataCardValue21.Height
+                ZIndex: =3
+
+            StarVisible24 As label:
+                Align: =Align.Center
+                Height: =DataCardKey24.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey24.Y
+                ZIndex: =4
+
+        latlong_DataCard2 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="latlong"
+            Default: =ThisItem.latlong
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"latlong")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =137
+            MaxLength: =DataSourceInfo([@MayMyoFresh_Survey], DataSourceInfo.MaxLength, "latlong")
+            Required: =true
+            Update: =DataCardValue22.Text
+            Width: =768
+            X: =0
+            Y: =11
+            ZIndex: =13
+
+            DataCardKey25 As label:
+                FontWeight: =FontWeight.Semibold
+                Height: =54
+                Size: =15
+                Text: ="Location"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue22 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Label2_Text
+                DelayOutput: =true
+                DisplayMode: =DisplayMode.Disabled
+                FontWeight: =FontWeight.Semibold
+                Height: =50
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey25.Y + DataCardKey25.Height + 5
+                ZIndex: =2
+
+            ErrorMessage25 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue22.Y + DataCardValue22.Height
+                ZIndex: =3
+
+            StarVisible25 As label:
+                Align: =Align.Center
+                Height: =DataCardKey25.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey25.Y
+                ZIndex: =4
+
+        Attachments_DataCard2 As typedDataCard.attachmentsEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="{Attachments}"
+            Default: =
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@MayMyoFresh_Survey],DataSourceInfo.DisplayName,"{Attachments}")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =colImages
+            Visible: =false
+            Width: =768
+            X: =0
+            Y: =12
+            ZIndex: =13
+
+            DataCardKey26 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue23 As attachments:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DisplayMode: =Parent.DisplayMode
+                IsInDataCard: =true
+                Items: =colImages
+                PaddingBottom: =5
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PaddingRight: =5
+                PaddingTop: =5
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey26.Y + DataCardKey26.Height + 5
+                ZIndex: =2
+
+            ErrorMessage26 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue23.Y + DataCardValue23.Height
+                ZIndex: =3
+
+            StarVisible26 As label:
+                Align: =Align.Center
+                Height: =DataCardKey26.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey26.Y
+                ZIndex: =4
+
+    Label2 As label:
+        Height: =44
+        Text: =LType
+        X: =588
+        Y: =392
+        ZIndex: =13
+

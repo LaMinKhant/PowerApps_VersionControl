@@ -1,0 +1,30 @@
+{
+  "011f9390-ca9d-450e-90d4-52cb610bcb0a": {
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://pahtamagroup.sharepoint.com/sites/Forms": {
+        "dataSources": {
+          "MayMyoFresh_Survey": {
+            "tableName": "dde13e23-6c7f-405d-8956-34458dbb9703"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "MayMyoFresh_Survey"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "011f9390-ca9d-450e-90d4-52cb610bcb0a"
+  }
+}
