@@ -101,7 +101,7 @@ ScreenSurvey_1 As screen:
     Icon2_2 As icon.Reset:
         Color: =RGBA(255, 255, 255, 1)
         HoverBorderColor: =RGBA(255, 0, 0, 1)
-        HoverColor: =RGBA(0, 13, 75, 1)
+        HoverColor: =RGBA(255, 0, 0, 1)
         Icon: =Icon.CancelBadge
         OnSelect: |
             =ResetForm(Form2);NewForm(Form2);
@@ -239,10 +239,10 @@ ScreenSurvey_1 As screen:
                 DisplayMode: =Parent.DisplayMode
                 FontWeight: =FontWeight.Semibold
                 Height: =50
-                Items: =Choices([@MayMyoFresh_Survey].OutletType)
+                Items: =Choices([@MayMyoFresh_Survey].'Outlet Type')
                 PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
                 SearchFields: =["Value"]
-                SearchItems: =Choices(MayMyoFresh_Survey.OutletType,DataCardValue10.SearchText)
+                SearchItems: =Choices(MayMyoFresh_Survey.'Outlet Type',DataCardValue10.SearchText)
                 SelectMultiple: =false
                 Size: =15
                 Tooltip: =Parent.DisplayName
