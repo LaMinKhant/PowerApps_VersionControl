@@ -1,0 +1,150 @@
+ScreenCamera As screen:
+    BackgroundImage: =
+    Fill: =RGBA(241, 244, 249, 1)
+
+    "Gallery1 As gallery.'BrowseLayout_Vertical_TwoTextOneImageTwoColumnVariant_ver4.0'":
+        BorderThickness: =2
+        Height: =609
+        Items: =colImages
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =284
+        Width: =768
+        WrapCount: =2
+        Y: =156
+        ZIndex: =1
+
+        Image4 As image:
+            Height: =269
+            Image: =ThisItem.Value
+            ImagePosition: =ImagePosition.Fill
+            OnSelect: =Select(Parent)
+            Width: =344
+            X: =16
+            Y: =16
+            ZIndex: =1
+
+        Subtitle1 As label:
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Id
+            VerticalAlign: =VerticalAlign.Top
+            Width: =
+            ZIndex: =3
+
+    Container2_1 As groupContainer.horizontalAutoLayoutContainer:
+        Fill: =RGBA(29, 116, 140, 1)
+        Height: =156
+        LayoutGap: =5
+        LayoutMode: =LayoutMode.Auto
+        Width: =768
+        ZIndex: =4
+
+        Image1_1 As image:
+            AlignInContainer: =AlignInContainer.Center
+            Image: =
+            PaddingBottom: =0.00
+            PaddingLeft: =0.00
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            Width: =120
+            ZIndex: =1
+
+        Label1_1 As label:
+            Align: =Align.Center
+            AlignInContainer: =AlignInContainer.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(29, 116, 140, 1)
+            FontWeight: =Bold
+            Height: =100
+            OnSelect: =Clear(colImages);
+            PaddingBottom: =5.56
+            PaddingLeft: =5.56
+            PaddingRight: =4.50
+            PaddingTop: =4.50
+            Size: =25
+            Text: ="Images"
+            Width: =500
+            Y: =0.00
+            ZIndex: =2
+
+    Icon2_1 As icon.Reset:
+        Color: =RGBA(255, 255, 255, 1)
+        HoverBorderColor: =RGBA(255, 0, 0, 1)
+        HoverColor: =RGBA(0, 13, 75, 1)
+        Icon: =Icon.CancelBadge
+        OnSelect: =Clear(colImages);
+        X: =657
+        Y: =46
+        ZIndex: =10
+
+    Icon6 As icon.Camera:
+        Color: =RGBA(0, 0, 0, 1)
+        Height: =111
+        Icon: =Icon.Camera
+        OnSelect: |+
+            =Set(Label2_Text,Location.Latitude&","&Location.Longitude);
+            If(IsBlank(Location.Latitude),
+                Notify("The location was not successfully retrieved. Be sure to enable location services and restart PowerApps.",Warning);
+            );
+            Set(
+            	varName,
+            	GUID()
+            );
+            If(CountRows(colImages) <4,Collect(
+            	colImages,
+            {
+            	DisplayName: varName & ".jpg",
+            	Id: varName & ".jpg",
+            	Value: Camera.Photo
+            }
+            ));
+            
+            
+        Width: =121
+        X: =320
+        Y: =1195
+        ZIndex: =12
+
+    Camera As camera:
+        BorderThickness: =2
+        Camera: =0
+        Height: =350
+        Width: =768
+        Y: =818
+        ZIndex: =13
+
+    Icon1 As icon.BackArrow:
+        Color: =RGBA(255, 255, 255, 1)
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(ScreenSurvey_1);
+        X: =40
+        Y: =40
+        ZIndex: =15
+
+    Label3 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =53
+        Size: =15
+        Text: ="ဆိုင်အမည်အားပေါ်အောင်ရိုက်ရန်။"
+        Width: =768
+        Y: =765
+        ZIndex: =16
+
+    Label4 As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =43
+        Size: =15
+        Text: =CountRows(colImages)
+        Width: =136
+        X: =312
+        Y: =111
+        ZIndex: =17
+
